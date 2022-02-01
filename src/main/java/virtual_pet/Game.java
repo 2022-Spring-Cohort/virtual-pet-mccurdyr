@@ -1,152 +1,93 @@
 package virtual_pet;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
-    public Chimp lilR = new Chimp("", 5, 5, 5, 5);
 
-    public String status = "status";
-    public String menu = "menu";
-    public String feed = "feed";
-    public String water = "water";
-    public String wash = "wash";
-    public String play = "play";
-    public String choice = "";
-    public int randomNumber;
+    PetShelter myShelter = new PetShelter();
 
 
 
-    public void play () {
-        System.out.println("Welcome to the game!");
-        System.out.println("Here's a chimp!");
-        lilR.getName();
-        System.out.println("Type \"status\" to see how I'm doing, or \"menu\" to see the menu.");
+
+    public void play(){
+        Kingdom firstDog = new Dog("Charlie", 5, 5);
+        Kingdom secondDog = new Dog("Lassie", 5, 5);
+
+//Create animals
+        myShelter.addPet(firstDog);
+        myShelter.addPet(secondDog);
+
+        System.out.println("Welcome to the world of pet shop ownership!" +
+                "\nHere's some animals! You can name your first two.");
+//Name the animal
+        //firstDog.setName();
+        System.out.println("Enter name of your first dog.");
+        Scanner dogNameDecision = new Scanner(System.in);
+        String dogName = dogNameDecision.nextLine();
+        firstDog.setName(dogName);
+        System.out.println("Enter the name of your second dog.");
+        String dogTwoName = dogNameDecision.nextLine();
+        secondDog.setName(dogTwoName);
 
 
 
+//play the game
+        System.out.println("There are your dogs' statuses. Keep them fed and watered!");
+        System.out.println("Type \"help\" to see a list of commands. " +
+                "Type \"view\" to see how all the dogs are doing!");
+
+        Scanner playerInput = new Scanner(System.in);
         while (true) {
-
-            Scanner playerInput = new Scanner(System.in);
-
+            displayStats(myShelter);
+//            String choice = playerInput.nextLine();
 //            System.out.println(choice);
-
-
-            //These decision variables
-            String toughCall;
-            String spank;
-
-
-
-
-
-//these are the mood things
-            if (lilR.getMood() <= 2) {
-
-                lilR.randomNum();
-
-                    if (randomNumber == 10 ) {
-
-                        System.out.println("The monkey got a little bored, " +
-                                "\nso he played with some stuff in the kitchen." +
-                                "\nThe music was fun, but he broke all your dishes." +
-                                "\nDo you spank the monkey?");
-
-                        spank = playerInput.nextLine();
-                            if (spank.equalsIgnoreCase("yes")) {
-                                System.out.println("I'm no judge, but the chimp didn't love this. " +
-                                        "The next thing you knew, you were blinded.");
-                            } else if (spank.equalsIgnoreCase("no")) {
-                                System.out.println("Violence is never the answer.");
-                            }
-
-
-                    }
-
-
-                if (lilR.getMood() <= 0) {
-                    System.out.println("***********\nYour chimp got too bored. It destroyed your home, leaving you" +
-                            " with the" +
-                            " cost of repairs. " +
-                            "\nDo you call Animal Control?\n***********");
-                    toughCall = playerInput.nextLine();
-                    if (toughCall.equalsIgnoreCase("yes")) {
-                        System.out.println("Unfortunately, they couldn't sedate your buddy. " +
-                                "Maybe next time. X|");
-                        break;
-                    } else if (toughCall.equalsIgnoreCase("no")) {
-                        System.out.println("Rather than watch your home be destroyed, you run in to " +
-                                "try and stop the chimp. \nThe chimp didn't take kindly to this. >:( \nPlay again?");
-                        break;
-                    }
-
-                }
-            }
-
-            if (lilR.getHunger() == 0) {
-                System.out.println("Your chimp starved to death! Maybe don't play again?");
-                break;
-            }
-            if (lilR.getThirst() == 0) {
-                System.out.println("Your chimp died of dehydration! Brutal.");
-                break;
-            }
-            if (lilR.getDirt() == 0) {
-                System.out.println("You didn't clean your friend nearly enough. " +
-                        "\nPoop is now your wallpaper, floor, and ceiling." +
-                        "\nMaybe try again after you move?");
-                break;
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 //here lies the menu functionality
-        System.out.println("What will you do?");
-        choice = playerInput.nextLine();
-            if (choice.equalsIgnoreCase(status)) {
-                lilR.status();
-                lilR.unTick();
+            System.out.println("What will you do?");
+            String choice = playerInput.nextLine();
+            if (choice.equalsIgnoreCase("view")) {
+                firstDog.status();
+                firstDog.unTick();
+                secondDog.status();
+                secondDog.unTick();
             }
-            else if (choice.equalsIgnoreCase(menu)) {
-                lilR.menu();
-                lilR.unTick();
+            else if (choice.equalsIgnoreCase("help")) {
+                System.out.println("Type \"view\" to see stats. \nType \"feed\" to feed the pets. " +
+                        "\nType \"water\" to water them." +
+                        "\nType \"adopt\" to adopt a dog out." +
+                        "\nType \"admit\" to take a stray off the streets!");
+                firstDog.unTick();
+                secondDog.unTick();
             }
-            else if (choice.equalsIgnoreCase(feed)) {
-                lilR.feed();
+            else if (choice.equalsIgnoreCase("feed")) {
+                myShelter.feedAllPets();
+                System.out.println("The dogs have been fed!");
             }
-            else if (choice.equalsIgnoreCase(water)) {
-                lilR.water();
+            else if (choice.equalsIgnoreCase("water")) {
+                myShelter.waterAllPets();
+                System.out.println("The dogs have been watered!");
             }
-            else if (choice.equalsIgnoreCase(wash)) {
-                lilR.wash();
+            else if (choice.equalsIgnoreCase("adopt")) {
+                System.out.println("Which pet do you wanna adopt?");
+                String dogChoice = playerInput.nextLine();
+                myShelter.adoptPet(dogChoice);
             }
-            else if (choice.equalsIgnoreCase(play)) {
-                lilR.mood();
+            else if (choice.equalsIgnoreCase("admit")) {
+                System.out.println("You took in a stray off the streets!");
+                myShelter.takePetIntoShelter();
             }
 
 
 
 
 
+            firstDog.tick();
+            secondDog.tick();
 
-            lilR.tick();
+
 
         }
 
@@ -162,32 +103,32 @@ public class Game {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    private void displayStats(PetShelter myShelter) {
+        System.out.println("****Stats****");
+        for (Kingdom currentPet: myShelter.getBackRoom()) {
+            System.out.println(currentPet.getName() + ": Hunger = "+ currentPet.getHunger() + ": Thirst = " + currentPet.getThirst());
+        }
+        System.out.println("***************");
+    }
 }
-
