@@ -1,16 +1,18 @@
 package virtual_pet;
-public abstract class Kingdom {
+public abstract class Organic {
     //abstract fields
     protected String name;
     protected int hunger;
     protected int thirst;
+    protected int cageFilth;
 
 
     //constructor
-    public Kingdom(String name, int hunger, int thirst) {
+    public Organic(String name, int hunger, int thirst, int cageFilth) {
         this.name = name;
         this.hunger = hunger;
         this.thirst = thirst;
+        this.cageFilth = cageFilth;
     }
 
 
@@ -35,21 +37,30 @@ public abstract class Kingdom {
         return thirst;
     }
 
+    public int getCageFilth() {
+        return cageFilth;
+    }
+
     //Tick and Untick
     public void tick() {
-        hunger += 1;
-        thirst += 1;
+        hunger += 2;
+        thirst += 2;
+        cageFilth += 2;
 
-        if (hunger > 10 ) {
-            hunger = 10;
+        if (hunger > 20 ) {
+            hunger = 20;
         }
-        if (thirst > 10) {
-            thirst = 10;
+        if (thirst > 20) {
+            thirst = 20;
+        }
+        if (cageFilth > 20) {
+            cageFilth = 20;
         }
     }
     public void unTick() {
-        hunger -= 1;
-        thirst -= 1;
+        hunger -= 2;
+        thirst -= 2;
+        cageFilth -= 2;
     }
 
     //care methods
@@ -64,6 +75,17 @@ public abstract class Kingdom {
         if (thirst < 0 ) {
             thirst = 0;
         }
+    }
+    public void cleanCages() {
+        cageFilth -= 5;
+        if(cageFilth < 0 ) {
+            cageFilth = 0;
+        }
+    }
+
+    public void walk() {
+        hunger += 2;
+        thirst += 2;
     }
 
     //status

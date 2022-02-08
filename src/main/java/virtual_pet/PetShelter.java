@@ -6,37 +6,55 @@ import java.util.ArrayList;
 public class PetShelter {
 
 
-    public ArrayList<Kingdom> backRoom;
+    public ArrayList<Organic> backRoom;
+    public ArrayList<Robotic> chargingStation;
+
     public PetShelter() {
         backRoom = new ArrayList<>();
+        chargingStation = new ArrayList<>();
     }
-    public void addPet(Kingdom pet) {
-        backRoom.add(pet);
 
+    public void addRobotPet(Robotic pet) {
+        chargingStation.add(pet);
+    }
+
+    public void addPet(Organic pet) {
+        backRoom.add(pet);
     }
     public void adoptPet(String dogChoice) {
-        Kingdom myPet = findAnimalByName(dogChoice);
+        Organic myPet = findAnimalByName(dogChoice);
+        Robotic myBot = findBotByname(dogChoice);
         backRoom.remove(myPet);
+        chargingStation.remove(myBot);
     }
     public void takePetIntoShelter() {
-        Kingdom newDog = new Dog("Stray", 5, 5);
+        Organic newDog = new Dog("Stray", 5, 5, 0);
         backRoom.add(newDog);
     }
 
     public void feedAllPets() {
-        for (Kingdom currentPet : backRoom) {
+        for (Organic currentPet : backRoom) {
             currentPet.feed();
         }
     }
     public void waterAllPets() {
-        for (Kingdom currentPet : backRoom) {
+        for (Organic currentPet : backRoom) {
             currentPet.water();
         }
     }
+    public void cleanPetCages() {
+        for (Organic currentPet : backRoom) {
+            currentPet.cleanCages();
+        }
+    }
 
-    public ArrayList<Kingdom> getBackRoom() {
+    public ArrayList<Organic> getBackRoom() {
         return backRoom;
     }
+    public ArrayList<Robotic> getChargingStation() {
+        return chargingStation;
+    }
+
 //    public void feedAnimalByName(String name){
 //        feedAnimalInShelter(findAnimalByName(name));
 //    }
@@ -44,8 +62,16 @@ public class PetShelter {
     //    private void feedAnimalInShelter(Kingdom animal){
 //        backRoom.get(backRoom.indexOf(animal)).feed();
 //    }
-    private Kingdom findAnimalByName(String name){
-        for (Kingdom currentPet : backRoom) {
+    private Organic findAnimalByName(String name){
+        for (Organic currentPet : backRoom) {
+            if(currentPet.getName().equalsIgnoreCase(name)){
+                return currentPet;
+            }
+        }
+        return null;
+    }
+    private Robotic findBotByname(String name) {
+        for (Robotic currentPet : chargingStation) {
             if(currentPet.getName().equalsIgnoreCase(name)){
                 return currentPet;
             }

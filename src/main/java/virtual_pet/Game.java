@@ -1,6 +1,5 @@
 package virtual_pet;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
@@ -11,12 +10,25 @@ public class Game {
 
 
     public void play(){
-        Kingdom firstDog = new Dog("Charlie", 5, 5);
-        Kingdom secondDog = new Dog("Lassie", 5, 5);
+        Organic firstDog = new Dog("Charlie", 5, 5, 0);
+        Organic secondDog = new Dog("Lassie", 5, 5, 0);
+        Robotic firstRobotDog = new RobotDog("Sparky-001",5, 5);
+        Robotic secondRobotDog = new RobotDog("Zippy-002", 5, 5);
+        Organic firstCat = new Cat("Whiskers", 5, 5, 0);
+        Organic secondCat = new Cat("Lily", 5, 5, 0);
+        Robotic firstRobotCat = new RobotCat("S.C.R.A.T.C.H.", 5, 5);
+        Robotic secondRobotCat = new RobotCat("B.I.T.E.", 5, 5);
 
 //Create animals
         myShelter.addPet(firstDog);
         myShelter.addPet(secondDog);
+        myShelter.addPet(firstCat);
+        myShelter.addPet(secondCat);
+        myShelter.addRobotPet(firstRobotDog);
+        myShelter.addRobotPet(secondRobotDog);
+        myShelter.addRobotPet(firstRobotCat);
+        myShelter.addRobotPet(secondRobotCat);
+
 
         System.out.println("Welcome to the world of pet shop ownership!" +
                 "\nHere's some animals! You can name your first two.");
@@ -49,22 +61,35 @@ public class Game {
             System.out.println("What will you do?");
             String choice = playerInput.nextLine();
             if (choice.equalsIgnoreCase("view")) {
-                firstDog.status();
-                firstDog.unTick();
-                secondDog.status();
-                secondDog.unTick();
+                for (Organic currentPet: myShelter.getBackRoom()) {
+                    currentPet.status();
+                    currentPet.unTick();
+                }
+                for (Robotic currentPet: myShelter.getChargingStation()) {
+                    currentPet.status();
+                    currentPet.unTick();
+                }
             }
             else if (choice.equalsIgnoreCase("help")) {
                 System.out.println("Type \"view\" to see stats. \nType \"feed\" to feed the pets. " +
                         "\nType \"water\" to water them." +
                         "\nType \"adopt\" to adopt a dog out." +
-                        "\nType \"admit\" to take a stray off the streets!");
-                firstDog.unTick();
-                secondDog.unTick();
+                        "\nType \"admit\" to take a stray off the streets!" +
+                        "\nType \"clean\" to clean your live animals' cages." +
+                        "\nType \"oil\" to change the robots' oil." +
+                        "\nType \"tuneup\" to take the robots to the mechanic." +
+                        "\nType \"walk\" to take everyone on a walk!");
+
+                for (Organic currentPet: myShelter.getBackRoom()) {
+                    currentPet.unTick();
+                }
+                for (Robotic currentPet: myShelter.getChargingStation()) {
+                    currentPet.unTick();
+                }
             }
             else if (choice.equalsIgnoreCase("feed")) {
                 myShelter.feedAllPets();
-                System.out.println("The dogs have been fed!");
+                System.out.println("All \"live\" animals have been fed!");
             }
             else if (choice.equalsIgnoreCase("water")) {
                 myShelter.waterAllPets();
@@ -79,13 +104,39 @@ public class Game {
                 System.out.println("You took in a stray off the streets!");
                 myShelter.takePetIntoShelter();
             }
+            else if (choice.equalsIgnoreCase("cages")) {
+                System.out.println("You cleaned all the \"real\" animals' cages!");
+                myShelter.cleanPetCages();
+            }
+            else if (choice.equalsIgnoreCase("oil")) {
+                for (Robotic currentPet : myShelter.getChargingStation()) {
+                    currentPet.oilChange();
+                }
+            }
+            else if (choice.equalsIgnoreCase("tuneup")) {
+                for (Robotic currentPet : myShelter.getChargingStation()) {
+                    currentPet.tuneUp();
+                }
+            }
+            else if (choice.equalsIgnoreCase("walk")) {
+                for (Organic currentPet : myShelter.getBackRoom()) {
+                    currentPet.walk();
+                }
+                for (Robotic currentPet : myShelter.getChargingStation()) {
+                    currentPet.tick();
+                }
+
+            }
 
 
+        //ticks
+            for (Organic currentPet: myShelter.getBackRoom()) {
+                currentPet.tick();
+            }
+            for (Robotic currentPet: myShelter.getChargingStation()) {
+                currentPet.tick();
+            }
 
-
-
-            firstDog.tick();
-            secondDog.tick();
 
 
 
@@ -126,8 +177,11 @@ public class Game {
 
     private void displayStats(PetShelter myShelter) {
         System.out.println("****Stats****");
-        for (Kingdom currentPet: myShelter.getBackRoom()) {
-            System.out.println(currentPet.getName() + ": Hunger = "+ currentPet.getHunger() + ": Thirst = " + currentPet.getThirst());
+        for (Organic currentPet: myShelter.getBackRoom()) {
+            System.out.println(currentPet.getName() + ": Hunger = "+ currentPet.getHunger() + ": Thirst = " + currentPet.getThirst() + ": Cage Filth = " + currentPet.getCageFilth());
+        }
+        for (Robotic currentPet: myShelter.getChargingStation()) {
+            System.out.println(currentPet.getName() + ": Oil Level = "+ currentPet.getOil() + ": Wear and Tear = " + currentPet.getWearAndTear());
         }
         System.out.println("***************");
     }

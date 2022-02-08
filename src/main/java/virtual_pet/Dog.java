@@ -1,9 +1,9 @@
 package virtual_pet;
 
-public class Dog  extends Kingdom {
+public class Dog  extends Organic {
 
-    public Dog(String name, int hunger, int thirst) {
-        super(name, hunger, thirst);
+    public Dog(String name, int hunger, int thirst, int cageFilth) {
+        super(name, hunger, thirst, cageFilth);
     }
 
 
@@ -13,7 +13,7 @@ public class Dog  extends Kingdom {
         return "First Dog: " + name +
                 "\nHunger: " + hunger + "/10" +
                 "\nThirst: " + thirst + "/10" +
-                "\n ";
+                "\nCage Filth: " + cageFilth + "/10";
     }
 
 
